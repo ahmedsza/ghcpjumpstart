@@ -192,6 +192,22 @@
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
                     <h1 class="text-5xl lg:text-6xl font-black tracking-tight mb-6">ABOUT ZAVA</h1>
                     <p class="text-xl text-gray-300 max-w-2xl mx-auto">Admin platform for managing your e-commerce operations</p>
+                    
+                    <!-- Dad Joke Section -->
+                    <div class="mt-8 max-w-3xl mx-auto">
+                        <div id="dadJokeContainer" class="bg-gray-800 p-6 rounded-lg shadow-lg">
+                            <div class="flex items-center justify-center mb-3">
+                                <span class="text-3xl mr-2">😄</span>
+                                <h3 class="text-sm font-bold tracking-wider text-gray-400">DAD JOKE OF THE MOMENT</h3>
+                            </div>
+                            <p id="dadJokeText" class="text-lg text-white italic min-h-[60px] flex items-center justify-center">
+                                Loading a fresh dad joke...
+                            </p>
+                            <button onclick="loadDadJoke()" class="mt-4 px-6 py-2 bg-white text-black text-sm font-semibold hover:bg-gray-200 transition-all">
+                                GET NEW JOKE
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </section>
 
@@ -560,6 +576,11 @@
             // Load sales summary if navigating to sales page
             if (pageName === 'sales') {
                 loadSalesSummary(1);
+            }
+            
+            // Load dad joke if navigating to about page
+            if (pageName === 'about') {
+                loadDadJoke();
             }
             
             // Scroll to top
@@ -1035,6 +1056,34 @@
             const email = event.target.querySelector('input[type="email"]').value;
             showAlert(`Thank you for subscribing with ${email}! You'll receive our latest updates.`);
             event.target.reset();
+        }
+
+        // Load Dad Joke from API
+        async function loadDadJoke() {
+            const jokeText = document.getElementById('dadJokeText');
+            
+            try {
+                jokeText.textContent = 'Loading a fresh dad joke...';
+                
+                const response = await fetch('/dad-joke');
+                
+                if (!response.ok) {
+                    throw new Error('Failed to fetch dad joke');
+                }
+                
+                const data = await response.json();
+                jokeText.textContent = data.joke;
+                
+                // Log cache info for debugging
+                if (data.cached) {
+                    console.log(`Dad joke from cache (age: ${data.cache_age.toFixed(1)}s)`);
+                } else {
+                    console.log('Fresh dad joke fetched from API');
+                }
+            } catch (error) {
+                console.error('Error loading dad joke:', error);
+                jokeText.textContent = 'Oops! Couldn\'t load a joke right now. Try again!';
+            }
         }
     </script>
 </body>
