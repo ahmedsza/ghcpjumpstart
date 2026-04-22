@@ -39,6 +39,22 @@ data = {}
 def index():
     return render_template('index.html')
 
+@app.route('/SubmitFeedback', methods=['POST'])
+def submit_feedback():
+    body = request.get_json()
+    if not body:
+        return jsonify({'error': 'Invalid request body'}), 400
+
+    name = body.get('name', '').strip()
+    category = body.get('category', '').strip()
+    message = body.get('message', '').strip()
+
+    if not name or not category or not message:
+        return jsonify({'error': 'name, category and message are required'}), 400
+
+    logger.info("SubmitFeedback received - name=%s category=%s message=%s", name, category, message)
+    return jsonify({'status': 'submitted'}), 200
+
 @app.route('/getdata', methods=['GET'])
 def get_data():
     with open('sampledata.json', 'r') as file:
