@@ -449,12 +449,36 @@
 
     <!-- Contact Us Page -->
     <div id="contactPage" class="page-section">
-        <section class="min-h-screen bg-white flex items-center justify-center">
-            <div class="text-center px-4">
-                <div class="text-8xl mb-8">💬</div>
-                <h2 class="text-4xl font-black tracking-tight text-black mb-4">CONTACT US</h2>
-                <p class="text-2xl text-gray-400 mb-4">COMING SOON</p>
-                <p class="text-gray-600 max-w-md mx-auto">We're setting up our contact channels to serve you better.</p>
+        <section class="min-h-screen bg-white py-20">
+            <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-10">
+                    <div class="text-6xl mb-6">💬</div>
+                    <h2 class="text-4xl font-black tracking-tight text-black mb-4">CONTACT US</h2>
+                    <p class="text-gray-600">Send us your feedback and we will get back to you.</p>
+                </div>
+                <form id="contactForm" onsubmit="handleContactSubmit(event)" class="bg-white border border-gray-200 p-6 sm:p-8 space-y-6">
+                    <div>
+                        <label for="contactName" class="block text-sm font-semibold text-gray-700 mb-2">Name</label>
+                        <input id="contactName" type="text" required class="w-full px-4 py-3 border-2 border-gray-200 focus:border-black focus:outline-none transition-colors" placeholder="Enter your name" aria-label="Your name">
+                    </div>
+                    <div>
+                        <label for="contactCategory" class="block text-sm font-semibold text-gray-700 mb-2">Category</label>
+                        <select id="contactCategory" required class="w-full px-4 py-3 border-2 border-gray-200 focus:border-black focus:outline-none transition-colors cursor-pointer" aria-label="Feedback category">
+                            <option value="">Select a category</option>
+                            <option value="General">General</option>
+                            <option value="Support">Support</option>
+                            <option value="Billing">Billing</option>
+                            <option value="Feature Request">Feature Request</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="contactMessage" class="block text-sm font-semibold text-gray-700 mb-2">Message</label>
+                        <textarea id="contactMessage" rows="5" required class="w-full px-4 py-3 border-2 border-gray-200 focus:border-black focus:outline-none transition-colors resize-none" placeholder="Enter your message" aria-label="Your message"></textarea>
+                    </div>
+                    <div class="text-right">
+                        <button id="contactSubmitBtn" type="submit" class="px-8 py-3 bg-black text-white font-semibold hover:bg-gray-800 transition-colors text-sm tracking-wider">SUBMIT</button>
+                    </div>
+                </form>
             </div>
         </section>
     </div>
@@ -572,10 +596,40 @@
         }
 
         // Contact Form Handler
-        function handleContactSubmit(event) {
+        async function handleContactSubmit(event) {
             event.preventDefault();
-            alert('Thank you for your message! We will get back to you soon.');
-            event.target.reset();
+            const form = event.target;
+            const submitButton = document.getElementById('contactSubmitBtn');
+            const payload = {
+                name: document.getElementById('contactName').value.trim(),
+                category: document.getElementById('contactCategory').value,
+                message: document.getElementById('contactMessage').value.trim()
+            };
+
+            try {
+                submitButton.disabled = true;
+                submitButton.textContent = 'SUBMITTING...';
+
+                const response = await fetch('/SubmitFeedback', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to submit feedback');
+                }
+
+                alert('Thank you for your message! We will get back to you soon.');
+                form.reset();
+            } catch (error) {
+                alert('Unable to submit feedback right now. Please try again.');
+            } finally {
+                submitButton.disabled = false;
+                submitButton.textContent = 'SUBMIT';
+            }
         }
 
         // API Configuration
