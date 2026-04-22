@@ -6,12 +6,21 @@ import math
 import time
 import logging
 import pyodbc
+import requests
+from datetime import datetime, timedelta
 
 app = Flask(__name__)
 CORS(app)  # Enable CORS for all routes
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
+
+# Dad joke cache
+dad_joke_cache = {
+    'joke': None,
+    'timestamp': None
+}
+CACHE_DURATION = 5  # Cache duration in seconds
 
 
 SQL_SERVER_CONFIG = {
@@ -136,6 +145,66 @@ def get_customer_sales_summary():
     except Exception as exc:
         logger.error("Error in customer-sales-summary: %s", str(exc))
         return jsonify({"error": str(exc)}), 500
+
+
+@app.route('/dad-joke', methods=['GET'])
+def get_dad_joke():
+    """
+    Returns a dad joke with 5-second caching.
+    Fetches from icanhazdadjoke.com API and caches the result.
+    """
+    try:
+        current_time = datetime.now()
+        
+        # Check if we have a cached joke that's still valid
+        if (dad_joke_cache['joke'] is not None and 
+            dad_joke_cache['timestamp'] is not None and 
+            (current_time - dad_joke_cache['timestamp']).total_seconds() < CACHE_DURATION):
+            logger.info("Returning cached dad joke")
+            return jsonify({
+                'joke': dad_joke_cache['joke'],
+                'cached': True,
+                'cache_age': (current_time - dad_joke_cache['timestamp']).total_seconds()
+            }), 200
+        
+        # Fetch a new joke from the API
+        logger.info("Fetching new dad joke from API")
+        headers = {'Accept': 'application/json'}
+        response = requests.get('https://icanhazdadjoke.com/', headers=headers, timeout=5)
+        
+        if response.status_code == 200:
+            joke_data = response.json()
+            joke_text = joke_data.get('joke', 'Why did the programmer quit? Because they didn\'t get arrays!')
+            
+            # Update cache
+            dad_joke_cache['joke'] = joke_text
+            dad_joke_cache['timestamp'] = current_time
+            
+            logger.info("Successfully fetched and cached new dad joke")
+            return jsonify({
+                'joke': joke_text,
+                'cached': False,
+                'cache_age': 0
+            }), 200
+        else:
+            logger.warning(f"Dad joke API returned status {response.status_code}")
+            return jsonify({
+                'joke': 'Why did the programmer quit? Because they didn\'t get arrays!',
+                'cached': False,
+                'error': 'API unavailable'
+            }), 200
+            
+    except requests.exceptions.RequestException as e:
+        logger.error(f"Error fetching dad joke: {str(e)}")
+        # Return a fallback joke if the API is unavailable
+        return jsonify({
+            'joke': 'Why did the programmer quit? Because they didn\'t get arrays!',
+            'cached': False,
+            'error': str(e)
+        }), 200
+    except Exception as e:
+        logger.error(f"Unexpected error in dad joke endpoint: {str(e)}")
+        return jsonify({'error': str(e)}), 500
 
 
 if __name__ == '__main__':
