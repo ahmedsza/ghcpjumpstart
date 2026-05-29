@@ -660,6 +660,11 @@
                 message: formData.get('message').trim()
             };
 
+            if (!feedback.name || !feedback.category || !feedback.message) {
+                setContactAlert('Please complete your name, category, and message before submitting.', 'error');
+                return;
+            }
+
             try {
                 submitButton.disabled = true;
                 submitButton.textContent = 'SUBMITTING...';
