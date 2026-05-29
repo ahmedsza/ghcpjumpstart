@@ -6,6 +6,7 @@ import math
 import time
 import logging
 import pyodbc
+import urllib.request
 
 app = Flask(__name__)
 CORS(app)  # Enable CORS for all routes
@@ -34,6 +35,24 @@ def get_connection():
 
 # In-memory product store
 data = {}
+
+# Dad joke cache
+_joke_cache = {"joke": None, "expires_at": 0}
+
+@app.route('/dadjoke', methods=['GET'])
+def get_dad_joke():
+    now = time.time()
+    if _joke_cache["joke"] and now < _joke_cache["expires_at"]:
+        return jsonify({"joke": _joke_cache["joke"], "cached": True})
+    req = urllib.request.Request(
+        "https://icanhazdadjoke.com/",
+        headers={"Accept": "application/json", "User-Agent": "ZavaDemo/1.0"}
+    )
+    with urllib.request.urlopen(req) as response:
+        result = json.loads(response.read().decode())
+    _joke_cache["joke"] = result["joke"]
+    _joke_cache["expires_at"] = now + 5
+    return jsonify({"joke": _joke_cache["joke"], "cached": False})
 
 @app.route('/')
 def index():

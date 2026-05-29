@@ -192,6 +192,10 @@
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
                     <h1 class="text-5xl lg:text-6xl font-black tracking-tight mb-6">ABOUT ZAVA</h1>
                     <p class="text-xl text-gray-300 max-w-2xl mx-auto">Admin platform for managing your e-commerce operations</p>
+                    <div id="dadjoke-container" class="mt-8 max-w-2xl mx-auto bg-white bg-opacity-10 rounded-lg p-6">
+                        <p class="text-sm uppercase tracking-widest text-gray-400 mb-2">Dad Joke of the Moment</p>
+                        <p id="dadjoke-text" class="text-lg italic text-gray-100">Loading joke...</p>
+                    </div>
                 </div>
             </section>
 
@@ -557,6 +561,11 @@
                 loadFeaturedProducts();
             }
 
+            // Load dad joke if navigating to about page
+            if (pageName === 'about') {
+                fetchDadJoke();
+            }
+
             // Load sales summary if navigating to sales page
             if (pageName === 'sales') {
                 loadSalesSummary(1);
@@ -893,6 +902,18 @@
 
         // Initialize: Load featured products on page load
         loadFeaturedProducts();
+
+        async function fetchDadJoke() {
+            const el = document.getElementById('dadjoke-text');
+            el.textContent = 'Loading joke...';
+            try {
+                const response = await fetch('/dadjoke');
+                const data = await response.json();
+                el.textContent = data.joke;
+            } catch (e) {
+                el.textContent = 'Could not load a joke right now.';
+            }
+        }
 
         // Store all products for filtering
         let allProducts = [];
