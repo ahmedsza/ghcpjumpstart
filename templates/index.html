@@ -460,7 +460,7 @@
                 </div>
 
                 <div class="bg-white border border-gray-200 shadow-sm p-8 lg:p-10">
-                    <div id="contactAlert" class="hidden mb-6 px-4 py-3 text-sm font-medium" role="status" aria-live="polite"></div>
+                    <div id="contactAlert" class="hidden mb-6 px-4 py-3 text-sm font-medium" role="status" aria-live="polite" tabindex="-1"></div>
 
                     <form id="contactForm" class="space-y-6" onsubmit="handleContactSubmit(event)">
                         <div>
@@ -638,9 +638,15 @@
             const alertStyles = type === 'success'
                 ? 'bg-green-50 text-green-800 border border-green-200'
                 : 'bg-red-50 text-red-800 border border-red-200';
-            contactAlert.textContent = message;
-            contactAlert.className = `mb-6 px-4 py-3 text-sm font-medium ${alertStyles}`;
-            contactAlert.classList.remove('hidden');
+            contactAlert.textContent = '';
+            contactAlert.className = 'hidden mb-6 px-4 py-3 text-sm font-medium';
+
+            requestAnimationFrame(() => {
+                contactAlert.textContent = message;
+                contactAlert.className = `mb-6 px-4 py-3 text-sm font-medium ${alertStyles}`;
+                contactAlert.classList.remove('hidden');
+                contactAlert.focus();
+            });
         }
 
         // Contact Form Handler
