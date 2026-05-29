@@ -7,6 +7,8 @@ import time
 import logging
 import pyodbc
 import urllib.request
+import csv
+import os
 
 app = Flask(__name__)
 CORS(app)  # Enable CORS for all routes
@@ -155,6 +157,36 @@ def get_customer_sales_summary():
     except Exception as exc:
         logger.error("Error in customer-sales-summary: %s", str(exc))
         return jsonify({"error": str(exc)}), 500
+
+
+@app.route('/sales-data', methods=['GET'])
+def get_sales_data():
+    year = request.args.get('year')
+    quarter = request.args.get('quarter')
+    category = request.args.get('category')
+    location = request.args.get('location')
+
+    csv_path = os.path.join(os.path.dirname(__file__), 'sample_data.csv')
+    rows = []
+    with open(csv_path, newline='', encoding='utf-8') as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            if year and row['Year'] != year:
+                continue
+            if quarter and row['Quarter'] != quarter:
+                continue
+            if category and row['Category'] != category:
+                continue
+            if location and row['Location'] != location:
+                continue
+            rows.append({
+                'year': row['Year'],
+                'quarter': row['Quarter'],
+                'category': row['Category'],
+                'amount': float(row['Amount']),
+                'location': row['Location']
+            })
+    return jsonify(rows), 200
 
 
 if __name__ == '__main__':
