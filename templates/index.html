@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Zava - Your Premium Shopping Destination</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         tailwind.config = {
             theme: {
@@ -94,6 +95,7 @@
                     <li><a onclick="showPage('about')" class="cursor-pointer hover:text-gray-600 transition-colors">ABOUT</a></li>
                     <li><a onclick="showPage('products')" class="cursor-pointer hover:text-gray-600 transition-colors">PRODUCTS</a></li>
                     <li><a onclick="showPage('sales')" class="cursor-pointer hover:text-gray-600 transition-colors">SALES</a></li>
+                    <li><a onclick="showPage('dashboard')" class="cursor-pointer hover:text-gray-600 transition-colors">DASHBOARD</a></li>
                     <li><a onclick="showPage('stores')" class="cursor-pointer hover:text-gray-600 transition-colors">STORES</a></li>
                     <li><a onclick="showPage('contact')" class="cursor-pointer hover:text-gray-600 transition-colors">CONTACT</a></li>
                 </ul>
@@ -105,6 +107,7 @@
                     <li><a onclick="showPage('about'); toggleMobileMenu()" class="cursor-pointer block py-2 hover:text-gray-600">ABOUT</a></li>
                     <li><a onclick="showPage('products'); toggleMobileMenu()" class="cursor-pointer block py-2 hover:text-gray-600">PRODUCTS</a></li>
                     <li><a onclick="showPage('sales'); toggleMobileMenu()" class="cursor-pointer block py-2 hover:text-gray-600">SALES</a></li>
+                    <li><a onclick="showPage('dashboard'); toggleMobileMenu()" class="cursor-pointer block py-2 hover:text-gray-600">DASHBOARD</a></li>
                     <li><a onclick="showPage('stores'); toggleMobileMenu()" class="cursor-pointer block py-2 hover:text-gray-600">STORES</a></li>
                     <li><a onclick="showPage('contact'); toggleMobileMenu()" class="cursor-pointer block py-2 hover:text-gray-600">CONTACT</a></li>
                 </ul>
@@ -192,6 +195,10 @@
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
                     <h1 class="text-5xl lg:text-6xl font-black tracking-tight mb-6">ABOUT ZAVA</h1>
                     <p class="text-xl text-gray-300 max-w-2xl mx-auto">Admin platform for managing your e-commerce operations</p>
+                    <div id="dadjoke-container" class="mt-8 max-w-2xl mx-auto bg-white bg-opacity-10 rounded-lg p-6">
+                        <p class="text-sm uppercase tracking-widest text-gray-400 mb-2">Dad Joke of the Moment</p>
+                        <p id="dadjoke-text" class="text-lg italic text-gray-100">Loading joke...</p>
+                    </div>
                 </div>
             </section>
 
@@ -447,6 +454,60 @@
         </section>
     </div>
 
+    <!-- Dashboard Page -->
+    <div id="dashboardPage" class="page-section">
+        <section class="min-h-screen bg-gray-50 py-12">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-3xl font-black tracking-tight text-black mb-8">Sales By Category</h2>
+                <!-- Filter bar -->
+                <div class="flex flex-wrap gap-4 mb-8">
+                    <select id="filterYear" onchange="applyFilters()" class="px-4 py-2 border-2 border-gray-200 focus:border-black focus:outline-none text-sm cursor-pointer">
+                        <option value="">All Years</option>
+                    </select>
+                    <select id="filterQuarter" onchange="applyFilters()" class="px-4 py-2 border-2 border-gray-200 focus:border-black focus:outline-none text-sm cursor-pointer">
+                        <option value="">All Quarters</option>
+                    </select>
+                    <select id="filterCategory" onchange="applyFilters()" class="px-4 py-2 border-2 border-gray-200 focus:border-black focus:outline-none text-sm cursor-pointer">
+                        <option value="">All Categories</option>
+                    </select>
+                    <select id="filterLocation" onchange="applyFilters()" class="px-4 py-2 border-2 border-gray-200 focus:border-black focus:outline-none text-sm cursor-pointer">
+                        <option value="">All Locations</option>
+                    </select>
+                </div>
+                <!-- Charts -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+                    <div class="bg-white p-6 shadow-sm border border-gray-100">
+                        <h3 class="text-sm font-bold mb-4 text-gray-700">Amount by Category</h3>
+                        <canvas id="chartCategory"></canvas>
+                    </div>
+                    <div class="bg-white p-6 shadow-sm border border-gray-100">
+                        <h3 class="text-sm font-bold mb-4 text-gray-700">Amount by Quarter</h3>
+                        <canvas id="chartQuarter"></canvas>
+                    </div>
+                    <div class="bg-white p-6 shadow-sm border border-gray-100">
+                        <h3 class="text-sm font-bold mb-4 text-gray-700">Category Share</h3>
+                        <canvas id="chartPie"></canvas>
+                    </div>
+                </div>
+                <!-- Data table -->
+                <div class="bg-white shadow-sm border border-gray-100 overflow-x-auto">
+                    <table class="w-full text-sm">
+                        <thead>
+                            <tr class="bg-teal-600 text-white">
+                                <th class="px-4 py-3 text-left font-semibold">Year</th>
+                                <th class="px-4 py-3 text-left font-semibold">Quarter</th>
+                                <th class="px-4 py-3 text-left font-semibold">Category</th>
+                                <th class="px-4 py-3 text-right font-semibold">Amount</th>
+                                <th class="px-4 py-3 text-left font-semibold">Location</th>
+                            </tr>
+                        </thead>
+                        <tbody id="dashboardTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </div>
+
     <!-- Contact Us Page -->
     <div id="contactPage" class="page-section">
         <section class="min-h-screen bg-white flex items-center justify-center">
@@ -528,6 +589,7 @@
                 'about': 'aboutPage',
                 'products': 'productsPage',
                 'sales': 'salesPage',
+                'dashboard': 'dashboardPage',
                 'stores': 'storesPage',
                 'contact': 'contactPage'
             };
@@ -557,9 +619,19 @@
                 loadFeaturedProducts();
             }
 
+            // Load dad joke if navigating to about page
+            if (pageName === 'about') {
+                fetchDadJoke();
+            }
+
             // Load sales summary if navigating to sales page
             if (pageName === 'sales') {
                 loadSalesSummary(1);
+            }
+
+            // Load dashboard if navigating to dashboard page
+            if (pageName === 'dashboard') {
+                loadDashboard();
             }
             
             // Scroll to top
@@ -894,6 +966,18 @@
         // Initialize: Load featured products on page load
         loadFeaturedProducts();
 
+        async function fetchDadJoke() {
+            const el = document.getElementById('dadjoke-text');
+            el.textContent = 'Loading joke...';
+            try {
+                const response = await fetch('/dadjoke');
+                const data = await response.json();
+                el.textContent = data.joke;
+            } catch (e) {
+                el.textContent = 'Could not load a joke right now.';
+            }
+        }
+
         // Store all products for filtering
         let allProducts = [];
 
@@ -1035,6 +1119,121 @@
             const email = event.target.querySelector('input[type="email"]').value;
             showAlert(`Thank you for subscribing with ${email}! You'll receive our latest updates.`);
             event.target.reset();
+        }
+
+        // Dashboard
+        const CATEGORY_COLORS = {
+            'Automotive': '#2e7d7d',
+            'Books': '#4472c4',
+            'Clothing': '#5b9bd5',
+            'Electronics': '#70ad47',
+            'Food & Beverage': '#c55a11',
+            'General': '#7f7f7f',
+            'Health & Beauty': '#1f3864',
+            'Home & Garden': '#a5a5a5',
+            'Sports': '#7030a0',
+            'Toys': '#548235'
+        };
+        let _chartCategory = null, _chartQuarter = null, _chartPie = null;
+        let _dashboardInitialized = false;
+
+        async function loadDashboard() {
+            const data = await fetchSalesData();
+            if (!_dashboardInitialized) {
+                populateFilterOptions(data);
+                _dashboardInitialized = true;
+            }
+            renderDashboard(data);
+        }
+
+        async function applyFilters() {
+            const data = await fetchSalesData();
+            renderDashboard(data);
+        }
+
+        async function fetchSalesData() {
+            const year = document.getElementById('filterYear').value;
+            const quarter = document.getElementById('filterQuarter').value;
+            const category = document.getElementById('filterCategory').value;
+            const location = document.getElementById('filterLocation').value;
+            const params = new URLSearchParams();
+            if (year) params.append('year', year);
+            if (quarter) params.append('quarter', quarter);
+            if (category) params.append('category', category);
+            if (location) params.append('location', location);
+            const res = await fetch('/sales-data?' + params.toString());
+            return await res.json();
+        }
+
+        function populateFilterOptions(data) {
+            const years = [...new Set(data.map(r => r.year))].sort();
+            const quarters = [...new Set(data.map(r => r.quarter))].sort();
+            const categories = [...new Set(data.map(r => r.category))].sort();
+            const locations = [...new Set(data.map(r => r.location))].sort();
+            fillSelect('filterYear', years);
+            fillSelect('filterQuarter', quarters);
+            fillSelect('filterCategory', categories);
+            fillSelect('filterLocation', locations);
+        }
+
+        function fillSelect(id, values) {
+            const sel = document.getElementById(id);
+            const first = sel.options[0];
+            sel.innerHTML = '';
+            sel.appendChild(first);
+            values.forEach(v => {
+                const opt = document.createElement('option');
+                opt.value = v;
+                opt.textContent = v;
+                sel.appendChild(opt);
+            });
+        }
+
+        function renderDashboard(data) {
+            // By category
+            const catMap = {};
+            data.forEach(r => { catMap[r.category] = (catMap[r.category] || 0) + r.amount; });
+            const catLabels = Object.keys(catMap);
+            const catValues = catLabels.map(k => catMap[k]);
+            const catColors = catLabels.map(k => CATEGORY_COLORS[k] || '#999');
+
+            // By quarter
+            const qMap = {};
+            data.forEach(r => { qMap[r.quarter] = (qMap[r.quarter] || 0) + r.amount; });
+            const qLabels = Object.keys(qMap).sort();
+            const qValues = qLabels.map(k => qMap[k]);
+
+            if (_chartCategory) _chartCategory.destroy();
+            if (_chartQuarter) _chartQuarter.destroy();
+            if (_chartPie) _chartPie.destroy();
+
+            _chartCategory = new Chart(document.getElementById('chartCategory'), {
+                type: 'bar',
+                data: { labels: catLabels, datasets: [{ data: catValues, backgroundColor: catColors }] },
+                options: { plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
+            });
+
+            _chartQuarter = new Chart(document.getElementById('chartQuarter'), {
+                type: 'bar',
+                data: { labels: qLabels, datasets: [{ data: qValues, backgroundColor: '#4472c4' }] },
+                options: { plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
+            });
+
+            _chartPie = new Chart(document.getElementById('chartPie'), {
+                type: 'pie',
+                data: { labels: catLabels, datasets: [{ data: catValues, backgroundColor: catColors }] },
+                options: { plugins: { legend: { position: 'bottom' } } }
+            });
+
+            // Table
+            const tbody = document.getElementById('dashboardTableBody');
+            tbody.innerHTML = '';
+            data.forEach((r, i) => {
+                const tr = document.createElement('tr');
+                tr.className = i % 2 === 0 ? 'bg-white' : 'bg-gray-50';
+                tr.innerHTML = `<td class="px-4 py-2">${r.year}</td><td class="px-4 py-2">${r.quarter}</td><td class="px-4 py-2">${r.category}</td><td class="px-4 py-2 text-right">${r.amount.toLocaleString('en-US', {style:'currency', currency:'USD'})}</td><td class="px-4 py-2">${r.location}</td>`;
+                tbody.appendChild(tr);
+            });
         }
     </script>
 </body>
