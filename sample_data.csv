@@ -1,0 +1,32 @@
+Year,Quarter,Category,Amount,Location
+2024,Q1,Electronics,45230.50,New York
+2024,Q1,Clothing,32100.75,Los Angeles
+2024,Q1,Home & Garden,28500.00,Chicago
+2024,Q1,Sports,19800.25,Houston
+2024,Q1,Books,15600.00,Phoenix
+2024,Q2,Electronics,52340.80,New York
+2024,Q2,Food & Beverage,38900.50,Los Angeles
+2024,Q2,Clothing,41200.00,Chicago
+2024,Q2,Toys,22500.75,Houston
+2024,Q2,Health & Beauty,31200.00,Phoenix
+2024,Q3,Electronics,48900.25,New York
+2024,Q3,Automotive,55600.00,Los Angeles
+2024,Q3,Home & Garden,33400.50,Chicago
+2024,Q3,Sports,26700.00,Houston
+2024,Q3,Books,18300.75,Phoenix
+2024,Q4,Electronics,61500.00,New York
+2024,Q4,Clothing,47800.50,Los Angeles
+2024,Q4,Food & Beverage,42100.25,Chicago
+2024,Q4,Toys,35600.00,Houston
+2024,Q4,Health & Beauty,38900.75,Phoenix
+2025,Q1,Electronics,58700.50,New York
+2025,Q1,Home & Garden,36200.00,Los Angeles
+2025,Q1,Sports,29400.75,Chicago
+2025,Q1,Automotive,62300.00,Houston
+2025,Q1,Books,21500.50,Phoenix
+2025,Q2,Electronics,64200.25,New York
+2025,Q2,Clothing,51900.00,Los Angeles
+2025,Q2,Food & Beverage,45600.75,Chicago
+2025,Q2,Toys,38200.50,Houston
+2025,Q2,Health & Beauty,42700.00,Phoenix
+2025,Q3,General,25800.00,Miami

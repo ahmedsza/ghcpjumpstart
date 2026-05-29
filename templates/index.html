@@ -1,0 +1,1041 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zava - Your Premium Shopping Destination</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1a1a1a',
+                        secondary: '#f5f5f5',
+                        accent: '#000000',
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* Page transition */
+        .page-section {
+            display: none;
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        .page-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Custom animations */
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-slide-down {
+            animation: slideDown 0.3s ease-out;
+        }
+        
+        /* Modal hidden by default */
+        .modal {
+            display: none;
+        }
+        
+        .modal.active {
+            display: block;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm sticky top-0 z-50 border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <div class="text-3xl font-black tracking-tighter text-black">ZAVA</div>
+                <button class="lg:hidden text-2xl" onclick="toggleMobileMenu()" aria-label="Toggle menu">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+                <ul class="hidden lg:flex space-x-12 text-sm font-medium" id="navMenu">
+                    <li><a onclick="showPage('home')" class="cursor-pointer hover:text-gray-600 transition-colors active border-b-2 border-black pb-1">HOME</a></li>
+                    <li><a onclick="showPage('about')" class="cursor-pointer hover:text-gray-600 transition-colors">ABOUT</a></li>
+                    <li><a onclick="showPage('products')" class="cursor-pointer hover:text-gray-600 transition-colors">PRODUCTS</a></li>
+                    <li><a onclick="showPage('sales')" class="cursor-pointer hover:text-gray-600 transition-colors">SALES</a></li>
+                    <li><a onclick="showPage('stores')" class="cursor-pointer hover:text-gray-600 transition-colors">STORES</a></li>
+                    <li><a onclick="showPage('contact')" class="cursor-pointer hover:text-gray-600 transition-colors">CONTACT</a></li>
+                </ul>
+            </div>
+            <!-- Mobile menu -->
+            <div id="mobileMenu" class="hidden lg:hidden pb-4 animate-slide-down">
+                <ul class="space-y-4 text-sm font-medium">
+                    <li><a onclick="showPage('home'); toggleMobileMenu()" class="cursor-pointer block py-2 hover:text-gray-600">HOME</a></li>
+                    <li><a onclick="showPage('about'); toggleMobileMenu()" class="cursor-pointer block py-2 hover:text-gray-600">ABOUT</a></li>
+                    <li><a onclick="showPage('products'); toggleMobileMenu()" class="cursor-pointer block py-2 hover:text-gray-600">PRODUCTS</a></li>
+                    <li><a onclick="showPage('sales'); toggleMobileMenu()" class="cursor-pointer block py-2 hover:text-gray-600">SALES</a></li>
+                    <li><a onclick="showPage('stores'); toggleMobileMenu()" class="cursor-pointer block py-2 hover:text-gray-600">STORES</a></li>
+                    <li><a onclick="showPage('contact'); toggleMobileMenu()" class="cursor-pointer block py-2 hover:text-gray-600">CONTACT</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Home Page Section -->
+    <div id="homePage" class="page-section active">
+        <!-- Hero Section -->
+        <section class="relative bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 lg:py-32">
+                <div class="text-center max-w-4xl mx-auto">
+                    <div class="inline-block px-4 py-2 bg-gray-100 text-gray-700 text-sm font-bold tracking-wider mb-6">
+                        ADMIN DASHBOARD
+                    </div>
+                    <h1 class="text-5xl lg:text-7xl font-black tracking-tight text-black mb-6 leading-tight">
+                        BACKOFFICE<br/>MANAGEMENT<br class="hidden sm:block"/>PORTAL
+                    </h1>
+                    <p class="text-lg lg:text-xl text-gray-600 mb-12 max-w-2xl mx-auto">
+                        Centralized platform for managing your e-commerce operations, inventory, and business data
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                        <button onclick="showPage('products')" class="px-10 py-4 bg-black text-white font-semibold hover:bg-gray-800 transition-all duration-300 text-sm tracking-wider">
+                            MANAGE PRODUCTS
+                        </button>
+                        <button onclick="showPage('about')" class="px-10 py-4 border-2 border-black text-black font-semibold hover:bg-black hover:text-white transition-all duration-300 text-sm tracking-wider">
+                            ABOUT SYSTEM
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="py-20 bg-gray-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-black tracking-tight text-black mb-4">ADMINISTRATIVE FEATURES</h2>
+                    <p class="text-gray-600">Powerful tools for efficient business management</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <div class="text-center p-8 bg-white hover:shadow-lg transition-shadow duration-300">
+                        <div class="text-4xl mb-4">📦</div>
+                        <h3 class="text-lg font-bold mb-3 tracking-tight">INVENTORY CONTROL</h3>
+                        <p class="text-gray-600 text-sm leading-relaxed">Complete product catalog and stock management</p>
+                    </div>
+                    <div class="text-center p-8 bg-white hover:shadow-lg transition-shadow duration-300">
+                        <div class="text-4xl mb-4">🔍</div>
+                        <h3 class="text-lg font-bold mb-3 tracking-tight">ADVANCED FILTERING</h3>
+                        <p class="text-gray-600 text-sm leading-relaxed">Quick search and category-based filtering</p>
+                    </div>
+                    <div class="text-center p-8 bg-white hover:shadow-lg transition-shadow duration-300">
+                        <div class="text-4xl mb-4">📊</div>
+                        <h3 class="text-lg font-bold mb-3 tracking-tight">REAL-TIME SYNC</h3>
+                        <p class="text-gray-600 text-sm leading-relaxed">Instant updates across all platforms</p>
+                    </div>
+                    <div class="text-center p-8 bg-white hover:shadow-lg transition-shadow duration-300">
+                        <div class="text-4xl mb-4">⚡</div>
+                        <h3 class="text-lg font-bold mb-3 tracking-tight">OPTIMIZED WORKFLOW</h3>
+                        <p class="text-gray-600 text-sm leading-relaxed">Streamlined admin operations</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Products Showcase -->
+        <section class="py-20 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl lg:text-5xl font-black tracking-tight text-black mb-4">CURRENT INVENTORY</h2>
+                    <p class="text-gray-600">Recent products in your catalog</p>
+                </div>
+                <div id="homeProductsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="text-center py-20 col-span-full text-gray-400">Loading products...</div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- About Us Page -->
+    <div id="aboutPage" class="page-section">
+        <div class="bg-white">
+            <section class="py-24 bg-black text-white">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                    <h1 class="text-5xl lg:text-6xl font-black tracking-tight mb-6">ABOUT ZAVA</h1>
+                    <p class="text-xl text-gray-300 max-w-2xl mx-auto">Admin platform for managing your e-commerce operations</p>
+                </div>
+            </section>
+
+            <section class="py-20 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="mb-16 bg-gray-50 p-10 lg:p-16">
+                    <h2 class="text-3xl font-black mb-6 tracking-tight">PLATFORM OVERVIEW</h2>
+                    <p class="text-gray-700 leading-relaxed text-lg">
+                        ZAVA Backoffice is a comprehensive administrative platform designed for e-commerce management. 
+                        Our system provides administrators with powerful tools to manage product catalogs, monitor inventory, 
+                        and maintain business operations efficiently. Built with modern technology, it ensures seamless 
+                        workflow management and real-time data synchronization across all channels.
+                    </p>
+                </div>
+
+                <div class="mb-16 bg-gray-50 p-10 lg:p-16">
+                    <h2 class="text-3xl font-black mb-6 tracking-tight">SYSTEM CAPABILITIES</h2>
+                    <p class="text-gray-700 leading-relaxed text-lg">
+                        The platform enables complete control over your e-commerce ecosystem. From product information management 
+                        to advanced filtering and search capabilities, administrators can handle all aspects of inventory management 
+                        with precision and speed. The intuitive interface reduces training time while maximizing operational efficiency.
+                    </p>
+                </div>
+
+                <div class="bg-gray-50 p-10 lg:p-16">
+                    <h2 class="text-3xl font-black mb-12 tracking-tight">CORE VALUES</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                        <div class="text-center">
+                            <div class="text-5xl mb-4">🔒</div>
+                            <h3 class="text-lg font-bold mb-3 tracking-tight">SECURITY</h3>
+                            <p class="text-gray-600 text-sm">Protected data and secure operations</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-5xl mb-4">⚡</div>
+                            <h3 class="text-lg font-bold mb-3 tracking-tight">EFFICIENCY</h3>
+                            <p class="text-gray-600 text-sm">Optimized workflows and processes</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-5xl mb-4">📊</div>
+                            <h3 class="text-lg font-bold mb-3 tracking-tight">RELIABILITY</h3>
+                            <p class="text-gray-600 text-sm">Consistent and dependable system</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-5xl mb-4">🚀</div>
+                            <h3 class="text-lg font-bold mb-3 tracking-tight">SCALABILITY</h3>
+                            <p class="text-gray-600 text-sm">Grows with your business needs</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- Product Management Page -->
+    <div id="productsPage" class="page-section">
+        <div class="bg-white min-h-screen">
+            <header class="bg-black text-white py-16 text-center">
+                <h1 class="text-5xl font-black tracking-tight mb-4">PRODUCT MANAGEMENT</h1>
+                <p class="text-gray-300 text-lg">Manage your inventory with precision</p>
+            </header>
+
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+                <!-- Alert Messages -->
+                <div id="alertContainer"></div>
+
+                <!-- Products Section -->
+                <div class="products-section">
+                    <!-- Search and Filter Section -->
+                    <div class="flex flex-col lg:flex-row gap-4 mb-8">
+                        <div class="flex-1 relative">
+                            <input 
+                                type="text" 
+                                id="searchInput" 
+                                placeholder="Search products..." 
+                                onkeyup="filterProducts()"
+                                class="w-full px-6 py-4 border-2 border-gray-200 focus:border-black focus:outline-none transition-colors text-sm"
+                                aria-label="Search products"
+                            >
+                            <svg class="w-5 h-5 absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                            </svg>
+                        </div>
+                        <div class="lg:w-64">
+                            <select id="categoryFilter" onchange="filterProducts()" class="w-full px-6 py-4 border-2 border-gray-200 focus:border-black focus:outline-none transition-colors text-sm cursor-pointer" aria-label="Filter by category">
+                                <option value="">All Categories</option>
+                                <option value="General">General</option>
+                                <option value="Electronics">Electronics</option>
+                                <option value="Clothing">Clothing</option>
+                                <option value="Home & Garden">Home & Garden</option>
+                                <option value="Sports">Sports</option>
+                                <option value="Books">Books</option>
+                                <option value="Food & Beverage">Food & Beverage</option>
+                                <option value="Toys">Toys</option>
+                                <option value="Health & Beauty">Health & Beauty</option>
+                                <option value="Automotive">Automotive</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row justify-between items-center mb-8 gap-4">
+                        <h2 class="text-2xl font-black tracking-tight">INVENTORY</h2>
+                        <button onclick="openProductModal()" class="px-8 py-3 bg-black text-white font-semibold hover:bg-gray-800 transition-all text-sm tracking-wider">
+                            + ADD PRODUCT
+                        </button>
+                    </div>
+                    
+                    <div id="loadingState" class="text-center py-20 text-gray-400">
+                        <p>Loading products...</p>
+                    </div>
+                    <div id="tableContainer"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Product Modal Dialog -->
+    <div id="productModal" class="modal">
+        <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+            <div class="bg-white max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-2xl">
+                <div class="flex justify-between items-center p-6 border-b border-gray-200">
+                    <h2 id="modalTitle" class="text-2xl font-black tracking-tight">ADD NEW PRODUCT</h2>
+                    <button onclick="closeProductModal()" class="text-gray-400 hover:text-black transition-colors text-3xl leading-none" aria-label="Close modal">&times;</button>
+                </div>
+                <form id="productForm" class="p-6">
+                    <input type="hidden" id="productId">
+                    <div class="mb-6">
+                        <label for="productName" class="block text-sm font-semibold mb-2 tracking-wide">PRODUCT NAME <span class="text-red-500">*</span></label>
+                        <input 
+                            type="text" 
+                            id="productName" 
+                            placeholder="Enter product name" 
+                            required
+                            class="w-full px-4 py-3 border-2 border-gray-200 focus:border-black focus:outline-none transition-colors"
+                            aria-required="true"
+                        >
+                    </div>
+                    <div class="mb-6">
+                        <label for="productDescription" class="block text-sm font-semibold mb-2 tracking-wide">DESCRIPTION</label>
+                        <textarea 
+                            id="productDescription" 
+                            placeholder="Enter product description"
+                            rows="4"
+                            class="w-full px-4 py-3 border-2 border-gray-200 focus:border-black focus:outline-none transition-colors resize-none"
+                            aria-label="Product description"
+                        ></textarea>
+                    </div>
+                    <div class="mb-6">
+                        <label for="productPrice" class="block text-sm font-semibold mb-2 tracking-wide">PRICE ($)</label>
+                        <input 
+                            type="number" 
+                            id="productPrice" 
+                            placeholder="0.00" 
+                            min="0" 
+                            step="0.01"
+                            class="w-full px-4 py-3 border-2 border-gray-200 focus:border-black focus:outline-none transition-colors"
+                            aria-label="Product price"
+                        >
+                    </div>
+                    <div class="mb-8">
+                        <label for="productCategory" class="block text-sm font-semibold mb-2 tracking-wide">CATEGORY</label>
+                        <select id="productCategory" class="w-full px-4 py-3 border-2 border-gray-200 focus:border-black focus:outline-none transition-colors cursor-pointer" aria-label="Product category">
+                            <option value="General">General</option>
+                            <option value="Electronics">Electronics</option>
+                            <option value="Clothing">Clothing</option>
+                            <option value="Home & Garden">Home & Garden</option>
+                            <option value="Sports">Sports</option>
+                            <option value="Books">Books</option>
+                            <option value="Food & Beverage">Food & Beverage</option>
+                            <option value="Toys">Toys</option>
+                            <option value="Health & Beauty">Health & Beauty</option>
+                            <option value="Automotive">Automotive</option>
+                        </select>
+                    </div>
+                    <div class="flex gap-3">
+                        <button type="submit" id="submitBtn" class="flex-1 px-8 py-4 bg-black text-white font-semibold hover:bg-gray-800 transition-all text-sm tracking-wider">
+                            ADD PRODUCT
+                        </button>
+                        <button type="button" onclick="closeProductModal()" class="px-8 py-4 border-2 border-gray-300 text-gray-700 font-semibold hover:border-black hover:text-black transition-all text-sm tracking-wider">
+                            CANCEL
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Customer Sales Summary Page -->
+    <div id="salesPage" class="page-section">
+        <div class="bg-white min-h-screen">
+            <header class="bg-black text-white py-16 text-center">
+                <h1 class="text-5xl font-black tracking-tight mb-4">CUSTOMER SALES SUMMARY</h1>
+                <p class="text-gray-300 text-lg">View customer sales data from SQL Server</p>
+            </header>
+
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+                <!-- Alert Messages -->
+                <div id="salesAlertContainer"></div>
+
+                <!-- Search / Filter Controls -->
+                <div class="flex flex-col lg:flex-row gap-4 mb-8">
+                    <div class="flex-1 relative">
+                        <input
+                            type="text"
+                            id="salesNameFilter"
+                            placeholder="Filter by customer name..."
+                            class="w-full px-6 py-4 border-2 border-gray-200 focus:border-black focus:outline-none transition-colors text-sm"
+                            aria-label="Filter by customer name"
+                        >
+                    </div>
+                    <div class="lg:w-40">
+                        <select id="salesPageSize" class="w-full px-6 py-4 border-2 border-gray-200 focus:border-black focus:outline-none transition-colors text-sm cursor-pointer" aria-label="Rows per page">
+                            <option value="25">25 rows</option>
+                            <option value="50">50 rows</option>
+                            <option value="100" selected>100 rows</option>
+                            <option value="250">250 rows</option>
+                            <option value="500">500 rows</option>
+                        </select>
+                    </div>
+                    <button onclick="loadSalesSummary(1)" class="px-8 py-3 bg-black text-white font-semibold hover:bg-gray-800 transition-all text-sm tracking-wider">
+                        LOAD DATA
+                    </button>
+                </div>
+
+                <!-- Loading State -->
+                <div id="salesLoadingState" class="text-center py-20 text-gray-400" style="display:none;">
+                    <p>Loading sales data...</p>
+                </div>
+
+                <!-- Pagination -->
+                <div id="salesPagination" class="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4" style="display:none;">
+                    <p id="salesInfo" class="text-sm text-gray-600"></p>
+                    <div class="flex gap-2">
+                        <button id="salesPrevBtn" onclick="loadSalesSummary(currentSalesPage - 1)" class="px-4 py-2 border-2 border-gray-200 text-sm font-semibold hover:border-black transition-colors disabled:opacity-40 disabled:cursor-not-allowed" disabled>PREV</button>
+                        <span id="salesPageIndicator" class="px-4 py-2 text-sm font-semibold"></span>
+                        <button id="salesNextBtn" onclick="loadSalesSummary(currentSalesPage + 1)" class="px-4 py-2 border-2 border-gray-200 text-sm font-semibold hover:border-black transition-colors disabled:opacity-40 disabled:cursor-not-allowed" disabled>NEXT</button>
+                    </div>
+                </div>
+
+                <!-- Sales Data Table -->
+                <div id="salesTableContainer"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Store Finder Page -->
+    <div id="storesPage" class="page-section">
+        <section class="min-h-screen bg-white flex items-center justify-center">
+            <div class="text-center px-4">
+                <div class="text-8xl mb-8">🏪</div>
+                <h2 class="text-4xl font-black tracking-tight text-black mb-4">STORE FINDER</h2>
+                <p class="text-2xl text-gray-400 mb-4">COMING SOON</p>
+                <p class="text-gray-600 max-w-md mx-auto">We're working on bringing you store locations near you.</p>
+            </div>
+        </section>
+    </div>
+
+    <!-- Contact Us Page -->
+    <div id="contactPage" class="page-section">
+        <section class="min-h-screen bg-white flex items-center justify-center">
+            <div class="text-center px-4">
+                <div class="text-8xl mb-8">💬</div>
+                <h2 class="text-4xl font-black tracking-tight text-black mb-4">CONTACT US</h2>
+                <p class="text-2xl text-gray-400 mb-4">COMING SOON</p>
+                <p class="text-gray-600 max-w-md mx-auto">We're setting up our contact channels to serve you better.</p>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-black text-white mt-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+                <div>
+                    <h3 class="text-2xl font-black mb-6 tracking-tighter">ZAVA</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        Administrative platform for e-commerce management. Secure, efficient, and scalable solutions for your business.
+                    </p>
+                </div>
+                
+                <div>
+                    <h4 class="text-sm font-bold mb-6 tracking-wider">QUICK LINKS</h4>
+                    <ul class="space-y-3 text-sm">
+                        <li><a onclick="showPage('about')" class="text-gray-400 hover:text-white cursor-pointer transition-colors">About Us</a></li>
+                        <li><a onclick="showPage('products')" class="text-gray-400 hover:text-white cursor-pointer transition-colors">Products</a></li>
+                        <li><a onclick="showPage('stores')" class="text-gray-400 hover:text-white cursor-pointer transition-colors">Store Finder</a></li>
+                        <li><a onclick="showPage('contact')" class="text-gray-400 hover:text-white cursor-pointer transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-sm font-bold mb-6 tracking-wider">CUSTOMER SERVICE</h4>
+                    <ul class="space-y-3 text-sm text-gray-400">
+                        <li>Shipping Info</li>
+                        <li>Returns Policy</li>
+                        <li>FAQ</li>
+                        <li>Support</li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-sm font-bold mb-6 tracking-wider">NEWSLETTER</h4>
+                    <p class="text-gray-400 text-sm mb-4">Get platform updates and feature announcements</p>
+                    <form onsubmit="handleNewsletterSubmit(event)" class="flex gap-2">
+                        <input 
+                            type="email" 
+                            placeholder="Enter your email" 
+                            required
+                            class="flex-1 px-4 py-2 bg-gray-900 border border-gray-800 focus:border-white focus:outline-none text-sm text-white"
+                            aria-label="Email for newsletter"
+                        >
+                        <button type="submit" class="px-6 py-2 bg-white text-black font-semibold hover:bg-gray-200 transition-colors text-sm">
+                            SUBSCRIBE
+                        </button>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="pt-8 border-t border-gray-800 text-center">
+                <p class="text-gray-500 text-sm">&copy; 2024 Zava. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Page Navigation
+        function showPage(pageName) {
+            // Hide all sections
+            document.querySelectorAll('.page-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Show selected section
+            const pageMap = {
+                'home': 'homePage',
+                'about': 'aboutPage',
+                'products': 'productsPage',
+                'sales': 'salesPage',
+                'stores': 'storesPage',
+                'contact': 'contactPage'
+            };
+            
+            document.getElementById(pageMap[pageName]).classList.add('active');
+            
+            // Update active nav link
+            document.querySelectorAll('.nav-menu a, #mobileMenu a').forEach(link => {
+                link.classList.remove('active', 'border-b-2', 'border-black', 'pb-1');
+            });
+            
+            // Find and activate the correct link
+            const links = document.querySelectorAll(`[onclick*="showPage('${pageName}')"]`);
+            links.forEach(link => {
+                if (link.closest('#navMenu')) {
+                    link.classList.add('active', 'border-b-2', 'border-black', 'pb-1');
+                }
+            });
+            
+            // Load products if navigating to products page
+            if (pageName === 'products') {
+                loadProducts();
+            }
+            
+            // Load featured products if navigating to home
+            if (pageName === 'home') {
+                loadFeaturedProducts();
+            }
+
+            // Load sales summary if navigating to sales page
+            if (pageName === 'sales') {
+                loadSalesSummary(1);
+            }
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            mobileMenu.classList.toggle('hidden');
+        }
+
+        // Contact Form Handler
+        function handleContactSubmit(event) {
+            event.preventDefault();
+            alert('Thank you for your message! We will get back to you soon.');
+            event.target.reset();
+        }
+
+        // API Configuration
+        const API_URL = '/products';
+        let editingProductId = null;
+
+        // DOM Elements
+        const productForm = document.getElementById('productForm');
+        const productNameInput = document.getElementById('productName');
+        const productDescriptionInput = document.getElementById('productDescription');
+        const productIdInput = document.getElementById('productId');
+        const tableContainer = document.getElementById('tableContainer');
+        const loadingState = document.getElementById('loadingState');
+        const alertContainer = document.getElementById('alertContainer');
+        const modalTitle = document.getElementById('modalTitle');
+        const submitBtn = document.getElementById('submitBtn');
+        const productModal = document.getElementById('productModal');
+
+        // Modal Functions
+        function openProductModal(productId = null) {
+            if (productId) {
+                editProduct(productId);
+            } else {
+                resetForm();
+                document.getElementById('modalTitle').textContent = 'ADD NEW PRODUCT';
+                document.getElementById('submitBtn').textContent = 'ADD PRODUCT';
+            }
+            document.getElementById('productModal').classList.add('active');
+            document.getElementById('productModal').classList.remove('hidden');
+        }
+
+        function closeProductModal() {
+            document.getElementById('productModal').classList.remove('active');
+            document.getElementById('productModal').classList.add('hidden');
+            resetForm();
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('productModal').addEventListener('click', (e) => {
+            if (e.target === document.getElementById('productModal')) {
+                closeProductModal();
+            }
+        });
+
+        // Show Alert Message
+        function showAlert(message, type = 'success') {
+            const alert = document.createElement('div');
+            const bgColor = type === 'success' ? 'bg-green-50 border-green-500 text-green-800' : 'bg-red-50 border-red-500 text-red-800';
+            alert.className = `${bgColor} border-l-4 p-4 mb-6 animate-slide-down`;
+            alert.textContent = message;
+            alert.setAttribute('role', 'alert');
+            alertContainer.appendChild(alert);
+            
+            setTimeout(() => {
+                alert.remove();
+            }, 5000);
+        }
+
+        // Show Loading State
+        function showLoading() {
+            loadingState.style.display = 'block';
+            tableContainer.innerHTML = '';
+        }
+
+        // Hide Loading State
+        function hideLoading() {
+            loadingState.style.display = 'none';
+        }
+
+        // Fetch and Display Products
+        async function loadProducts() {
+            try {
+                showLoading();
+                const response = await fetch(API_URL);
+                
+                if (!response.ok) {
+                    throw new Error('Failed to fetch products');
+                }
+                
+                const products = await response.json();
+                hideLoading();
+                displayProducts(products);
+            } catch (error) {
+                hideLoading();
+                showAlert('Error loading products: ' + error.message, 'error');
+                tableContainer.innerHTML = '<div class="empty-state"><h3>Failed to load products</h3></div>';
+            }
+        }
+
+        // Display Products in Table
+        function displayProducts(products) {
+            if (products.length === 0) {
+                tableContainer.innerHTML = `
+                    <div class="text-center py-20">
+                        <svg class="w-24 h-24 mx-auto mb-6 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
+                        </svg>
+                        <h3 class="text-2xl font-bold text-gray-800 mb-2">No Products Yet</h3>
+                        <p class="text-gray-500">Start by adding your first product using the "Add Product" button above</p>
+                    </div>
+                `;
+                return;
+            }
+
+            tableContainer.innerHTML = `
+                <div class="bg-white shadow-sm border border-gray-200 overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="w-full">
+                            <thead class="bg-black text-white">
+                                <tr>
+                                    <th class="px-6 py-4 text-left text-xs font-bold tracking-wider">PRODUCT NAME</th>
+                                    <th class="px-6 py-4 text-left text-xs font-bold tracking-wider hidden md:table-cell">DESCRIPTION</th>
+                                    <th class="px-6 py-4 text-left text-xs font-bold tracking-wider">PRICE</th>
+                                    <th class="px-6 py-4 text-left text-xs font-bold tracking-wider hidden lg:table-cell">CATEGORY</th>
+                                    <th class="px-6 py-4 text-left text-xs font-bold tracking-wider hidden xl:table-cell">PRODUCT ID</th>
+                                    <th class="px-6 py-4 text-center text-xs font-bold tracking-wider">ACTIONS</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200">
+                                ${products.map(product => `
+                                    <tr class="hover:bg-gray-50 transition-colors">
+                                        <td class="px-6 py-4">
+                                            <div class="font-semibold text-gray-900">${escapeHtml(product.name)}</div>
+                                            <div class="md:hidden text-sm text-gray-500 mt-1">${escapeHtml(product.description || 'No description')}</div>
+                                        </td>
+                                        <td class="px-6 py-4 text-sm text-gray-600 hidden md:table-cell max-w-xs truncate">${escapeHtml(product.description || 'No description provided')}</td>
+                                        <td class="px-6 py-4">
+                                            <span class="text-lg font-bold text-black">$${(product.price || 0).toFixed(2)}</span>
+                                            <div class="lg:hidden mt-1">
+                                                <span class="inline-block px-2 py-1 text-xs font-semibold bg-gray-100 text-gray-700">${escapeHtml(product.category || 'General')}</span>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 hidden lg:table-cell">
+                                            <span class="inline-block px-3 py-1 text-xs font-semibold bg-gray-100 text-gray-700">${escapeHtml(product.category || 'General')}</span>
+                                        </td>
+                                        <td class="px-6 py-4 text-xs text-gray-400 font-mono hidden xl:table-cell">${escapeHtml(product.id)}</td>
+                                        <td class="px-6 py-4">
+                                            <div class="flex gap-2 justify-center">
+                                                <button onclick="openProductModal('${product.id}')" class="px-4 py-2 bg-amber-500 text-white text-xs font-semibold hover:bg-amber-600 transition-colors" aria-label="Edit ${escapeHtml(product.name)}">
+                                                    EDIT
+                                                </button>
+                                                <button onclick="deleteProduct('${product.id}')" class="px-4 py-2 bg-red-500 text-white text-xs font-semibold hover:bg-red-600 transition-colors" aria-label="Delete ${escapeHtml(product.name)}">
+                                                    DELETE
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Escape HTML to prevent XSS
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Add or Update Product
+        productForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const name = productNameInput.value.trim();
+            const description = productDescriptionInput.value.trim();
+            const price = parseFloat(document.getElementById('productPrice').value) || 0;
+            const category = document.getElementById('productCategory').value || 'General';
+            
+            if (!name) {
+                showAlert('Product name is required', 'error');
+                return;
+            }
+
+            const productData = { name, description, price, category };
+            
+            try {
+                const url = editingProductId ? `${API_URL}/${editingProductId}` : API_URL;
+                const method = editingProductId ? 'PUT' : 'POST';
+                
+                submitBtn.disabled = true;
+                submitBtn.textContent = editingProductId ? 'UPDATING...' : 'ADDING...';
+                
+                const response = await fetch(url, {
+                    method,
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(productData),
+                });
+                
+                if (!response.ok) {
+                    throw new Error('Failed to save product');
+                }
+                
+                showAlert(editingProductId ? 'Product updated successfully!' : 'Product added successfully!');
+                closeProductModal();
+                loadProducts();
+            } catch (error) {
+                showAlert('Error saving product: ' + error.message, 'error');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = editingProductId ? 'UPDATE PRODUCT' : 'ADD PRODUCT';
+            }
+        });
+
+        // Edit Product
+        async function editProduct(id) {
+            try {
+                const response = await fetch(`${API_URL}/${id}`);
+                
+                if (!response.ok) {
+                    throw new Error('Failed to fetch product details');
+                }
+                
+                const product = await response.json();
+                
+                editingProductId = id;
+                productIdInput.value = id;
+                productNameInput.value = product.name;
+                productDescriptionInput.value = product.description || '';
+                document.getElementById('productPrice').value = product.price || 0;
+                document.getElementById('productCategory').value = product.category || 'General';
+                
+                document.getElementById('modalTitle').textContent = 'EDIT PRODUCT';
+                document.getElementById('submitBtn').textContent = 'UPDATE PRODUCT';
+            } catch (error) {
+                showAlert('Error loading product: ' + error.message, 'error');
+            }
+        }
+
+        // Delete Product
+        async function deleteProduct(id) {
+            if (!confirm('Are you sure you want to delete this product?')) {
+                return;
+            }
+            
+            try {
+                const response = await fetch(`${API_URL}/${id}`, {
+                    method: 'DELETE',
+                });
+                
+                if (!response.ok) {
+                    throw new Error('Failed to delete product');
+                }
+                
+                showAlert('Product deleted successfully!');
+                loadProducts();
+            } catch (error) {
+                showAlert('Error deleting product: ' + error.message, 'error');
+            }
+        }
+
+        // Reset Form
+        function resetForm() {
+            editingProductId = null;
+            productForm.reset();
+            productIdInput.value = '';
+            document.getElementById('modalTitle').textContent = 'ADD NEW PRODUCT';
+            document.getElementById('submitBtn').textContent = 'ADD PRODUCT';
+        }
+
+        // Load Featured Products for Home Page
+        async function loadFeaturedProducts() {
+            try {
+                const response = await fetch(API_URL);
+                if (!response.ok) {
+                    throw new Error('Failed to fetch products');
+                }
+                
+                const products = await response.json();
+                const homeProductsGrid = document.getElementById('homeProductsGrid');
+                
+                if (products.length === 0) {
+                    homeProductsGrid.innerHTML = `
+                        <div class="col-span-full text-center py-20">
+                            <h3 class="text-2xl font-bold text-gray-800 mb-2">No products available yet</h3>
+                            <p class="text-gray-500">Check back soon for featured products!</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                // Show up to 6 products on home page
+                const featuredProducts = products.slice(0, 6);
+                homeProductsGrid.innerHTML = featuredProducts.map(product => `
+                    <div class="bg-white border border-gray-200 overflow-hidden group hover:shadow-xl transition-shadow duration-300">
+                        <div class="aspect-square bg-gray-100 flex items-center justify-center text-6xl">
+                            🎁
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold mb-2 group-hover:text-gray-600 transition-colors">${escapeHtml(product.name)}</h3>
+                            <p class="text-gray-600 text-sm mb-4 line-clamp-2">${escapeHtml(product.description || 'Premium quality product')}</p>
+                            <div class="flex items-center justify-between mb-4">
+                                <span class="text-2xl font-black">${(product.price || 0).toFixed(2)}</span>
+                                <span class="px-3 py-1 text-xs font-semibold bg-gray-100 text-gray-700">${escapeHtml(product.category || 'General')}</span>
+                            </div>
+                            <button onclick="showPage('products')" class="w-full py-3 bg-black text-white font-semibold hover:bg-gray-800 transition-colors text-sm tracking-wider">
+                                VIEW DETAILS
+                            </button>
+                        </div>
+                    </div>
+                `).join('');
+            } catch (error) {
+                const homeProductsGrid = document.getElementById('homeProductsGrid');
+                homeProductsGrid.innerHTML = `
+                    <div class="col-span-full text-center py-20 text-gray-400">
+                        <h3 class="text-xl font-bold">Unable to load products</h3>
+                    </div>
+                `;
+            }
+        }
+
+        // Initialize: Load featured products on page load
+        loadFeaturedProducts();
+
+        // Store all products for filtering
+        let allProducts = [];
+
+        // Update loadProducts to store all products
+        async function loadProductsWithFilter() {
+            try {
+                showLoading();
+                const response = await fetch(API_URL);
+                
+                if (!response.ok) {
+                    throw new Error('Failed to fetch products');
+                }
+                
+                allProducts = await response.json();
+                hideLoading();
+                filterProducts();
+            } catch (error) {
+                hideLoading();
+                showAlert('Error loading products: ' + error.message, 'error');
+                tableContainer.innerHTML = '<div class="empty-state"><h3>Failed to load products</h3></div>';
+            }
+        }
+
+        // Filter products based on search and category
+        function filterProducts() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const categoryFilter = document.getElementById('categoryFilter').value;
+
+            let filtered = allProducts;
+
+            // Filter by search term
+            if (searchTerm) {
+                filtered = filtered.filter(product => 
+                    product.name.toLowerCase().includes(searchTerm) ||
+                    (product.description && product.description.toLowerCase().includes(searchTerm))
+                );
+            }
+
+            // Filter by category
+            if (categoryFilter) {
+                filtered = filtered.filter(product => product.category === categoryFilter);
+            }
+
+            displayProducts(filtered);
+        }
+
+        // Override the original loadProducts to use the new version
+        loadProducts = loadProductsWithFilter;
+
+        // ── Customer Sales Summary ──
+        let currentSalesPage = 1;
+
+        async function loadSalesSummary(page) {
+            const nameFilter = document.getElementById('salesNameFilter').value.trim();
+            const pageSize = document.getElementById('salesPageSize').value;
+            currentSalesPage = page;
+
+            const params = new URLSearchParams({ page_number: page, page_size: pageSize });
+            if (nameFilter) params.set('name_filter', nameFilter);
+
+            document.getElementById('salesLoadingState').style.display = 'block';
+            document.getElementById('salesTableContainer').innerHTML = '';
+            document.getElementById('salesPagination').style.display = 'none';
+
+            try {
+                const response = await fetch(`/customer-sales-summary?${params}`);
+                if (!response.ok) throw new Error('Failed to fetch sales data');
+
+                const data = await response.json();
+                document.getElementById('salesLoadingState').style.display = 'none';
+
+                if (data.error) {
+                    showSalesAlert(data.error, 'error');
+                    return;
+                }
+
+                displaySalesData(data.items);
+
+                // Pagination controls
+                const totalPages = data.total_pages || 1;
+                const totalRows = data.total_rows || data.items.length;
+                document.getElementById('salesPagination').style.display = 'flex';
+                document.getElementById('salesInfo').textContent = `Showing ${data.items.length} of ${totalRows} rows`;
+                document.getElementById('salesPageIndicator').textContent = `Page ${page} / ${totalPages}`;
+                document.getElementById('salesPrevBtn').disabled = page <= 1;
+                document.getElementById('salesNextBtn').disabled = page >= totalPages;
+            } catch (err) {
+                document.getElementById('salesLoadingState').style.display = 'none';
+                showSalesAlert('Error loading sales data: ' + err.message, 'error');
+            }
+        }
+
+        function displaySalesData(items) {
+            const container = document.getElementById('salesTableContainer');
+            if (!items || items.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-20">
+                        <h3 class="text-2xl font-bold text-gray-800 mb-2">No Sales Data</h3>
+                        <p class="text-gray-500">No records matched your filter criteria.</p>
+                    </div>`;
+                return;
+            }
+
+            const columns = Object.keys(items[0]);
+            container.innerHTML = `
+                <div class="bg-white shadow-sm border border-gray-200 overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="w-full">
+                            <thead class="bg-black text-white">
+                                <tr>
+                                    ${columns.map(col => `<th class="px-6 py-4 text-left text-xs font-bold tracking-wider whitespace-nowrap">${escapeHtml(col.toUpperCase())}</th>`).join('')}
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200">
+                                ${items.map(row => `
+                                    <tr class="hover:bg-gray-50 transition-colors">
+                                        ${columns.map(col => `<td class="px-6 py-4 text-sm text-gray-700 whitespace-nowrap">${escapeHtml(String(row[col] ?? ''))}</td>`).join('')}
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>`;
+        }
+
+        function showSalesAlert(message, type = 'success') {
+            const container = document.getElementById('salesAlertContainer');
+            const bgColor = type === 'success' ? 'bg-green-50 border-green-500 text-green-800' : 'bg-red-50 border-red-500 text-red-800';
+            const alert = document.createElement('div');
+            alert.className = `${bgColor} border-l-4 p-4 mb-6 animate-slide-down`;
+            alert.textContent = message;
+            container.appendChild(alert);
+            setTimeout(() => alert.remove(), 5000);
+        }
+
+        // Newsletter submission handler
+        function handleNewsletterSubmit(event) {
+            event.preventDefault();
+            const email = event.target.querySelector('input[type="email"]').value;
+            showAlert(`Thank you for subscribing with ${email}! You'll receive our latest updates.`);
+            event.target.reset();
+        }
+    </script>
+</body>
+</html>

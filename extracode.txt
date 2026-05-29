@@ -1,0 +1,19 @@
+import pyodbc
+
+SQL_SERVER_CONFIG = {
+    "server": r"(localdb)\mssqllocaldb",
+    "database": "zavadb",
+    "driver": "{ODBC Driver 17 for SQL Server}",
+    "trusted_connection": "yes",
+}
+
+
+def get_connection() -> pyodbc.Connection:
+    """Return a new pyodbc connection to the zavadb LocalDB instance."""
+    conn_str = (
+        f"DRIVER={SQL_SERVER_CONFIG['driver']};"
+        f"SERVER={SQL_SERVER_CONFIG['server']};"
+        f"DATABASE={SQL_SERVER_CONFIG['database']};"
+        f"Trusted_Connection={SQL_SERVER_CONFIG['trusted_connection']};"
+    )
+    return pyodbc.connect(conn_str)
