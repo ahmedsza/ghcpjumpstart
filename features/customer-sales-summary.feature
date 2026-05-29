@@ -17,8 +17,8 @@ Feature: Customer sales summary reporting
     When I enter a customer name filter and load data
     Then only matching customer rows are displayed
 
-  Scenario: Change rows per page
-    Given sales summary data contains more than 100 rows
+  Scenario: Change rows per page setting
+    Given sales summary data contains more rows than the default page size
     When I select "25 rows" and load data
     Then the page should display at most 25 rows
     And the paging indicator should reflect the current page

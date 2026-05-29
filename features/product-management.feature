@@ -1,4 +1,4 @@
-Feature: Product catalog administration
+Feature: Product Catalog Administration
   As a backoffice administrator
   I want to manage products in the catalog
   So that inventory data stays accurate
@@ -12,7 +12,7 @@ Feature: Product catalog administration
     Then I should see "No Products Yet"
     And I should be prompted to add the first product
 
-  Scenario: Add a product with required and optional fields
+  Scenario: Add a product with all editable fields
     When I create a product with name, description, price, and category
     Then the product appears in the inventory table
     And a success alert is shown
