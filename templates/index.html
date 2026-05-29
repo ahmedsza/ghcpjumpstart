@@ -449,12 +449,69 @@
 
     <!-- Contact Us Page -->
     <div id="contactPage" class="page-section">
-        <section class="min-h-screen bg-white flex items-center justify-center">
-            <div class="text-center px-4">
-                <div class="text-8xl mb-8">💬</div>
-                <h2 class="text-4xl font-black tracking-tight text-black mb-4">CONTACT US</h2>
-                <p class="text-2xl text-gray-400 mb-4">COMING SOON</p>
-                <p class="text-gray-600 max-w-md mx-auto">We're setting up our contact channels to serve you better.</p>
+        <section class="min-h-screen bg-gray-50 py-20">
+            <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                    <div class="text-8xl mb-8">💬</div>
+                    <h2 class="text-4xl font-black tracking-tight text-black mb-4">CONTACT US</h2>
+                    <p class="text-gray-600 max-w-2xl mx-auto">
+                        Send us your feedback and our team will review it as soon as possible.
+                    </p>
+                </div>
+
+                <div class="bg-white border border-gray-200 shadow-sm p-8 lg:p-10">
+                    <div id="contactAlert" class="hidden mb-6 px-4 py-3 text-sm font-medium" role="status" aria-live="polite"></div>
+
+                    <form id="contactForm" class="space-y-6" onsubmit="handleContactSubmit(event)">
+                        <div>
+                            <label for="contactName" class="block text-sm font-bold tracking-wider text-black mb-2">NAME</label>
+                            <input
+                                id="contactName"
+                                name="name"
+                                type="text"
+                                required
+                                class="w-full px-4 py-3 border border-gray-300 focus:border-black focus:outline-none"
+                                placeholder="Enter your name"
+                            >
+                        </div>
+
+                        <div>
+                            <label for="contactCategory" class="block text-sm font-bold tracking-wider text-black mb-2">CATEGORY</label>
+                            <select
+                                id="contactCategory"
+                                name="category"
+                                required
+                                class="w-full px-4 py-3 border border-gray-300 bg-white focus:border-black focus:outline-none"
+                            >
+                                <option value="">Select a category</option>
+                                <option value="General">General</option>
+                                <option value="Support">Support</option>
+                                <option value="Sales">Sales</option>
+                                <option value="Technical">Technical</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label for="contactMessage" class="block text-sm font-bold tracking-wider text-black mb-2">MESSAGE</label>
+                            <textarea
+                                id="contactMessage"
+                                name="message"
+                                rows="6"
+                                required
+                                class="w-full px-4 py-3 border border-gray-300 focus:border-black focus:outline-none resize-y"
+                                placeholder="Tell us how we can help"
+                            ></textarea>
+                        </div>
+
+                        <button
+                            id="contactSubmitBtn"
+                            type="submit"
+                            class="w-full sm:w-auto px-8 py-4 bg-black text-white font-semibold hover:bg-gray-800 transition-all duration-300 text-sm tracking-wider"
+                        >
+                            SUBMIT
+                        </button>
+                    </form>
+                </div>
             </div>
         </section>
     </div>
@@ -571,11 +628,41 @@
             mobileMenu.classList.toggle('hidden');
         }
 
+        function SubmitFeedback(feedback) {
+            console.log('SubmitFeedback called', feedback);
+            return Promise.resolve({ success: true });
+        }
+
+        function setContactAlert(message, type = 'success') {
+            const contactAlert = document.getElementById('contactAlert');
+            contactAlert.textContent = message;
+            contactAlert.className = `mb-6 px-4 py-3 text-sm font-medium ${type === 'success' ? 'bg-green-50 text-green-800 border border-green-200' : 'bg-red-50 text-red-800 border border-red-200'}`;
+        }
+
         // Contact Form Handler
-        function handleContactSubmit(event) {
+        async function handleContactSubmit(event) {
             event.preventDefault();
-            alert('Thank you for your message! We will get back to you soon.');
-            event.target.reset();
+            const form = event.target;
+            const submitButton = document.getElementById('contactSubmitBtn');
+            const formData = new FormData(form);
+            const feedback = {
+                name: formData.get('name').trim(),
+                category: formData.get('category'),
+                message: formData.get('message').trim()
+            };
+
+            try {
+                submitButton.disabled = true;
+                submitButton.textContent = 'SUBMITTING...';
+                await SubmitFeedback(feedback);
+                setContactAlert('Thank you for your feedback! Our team will review it shortly.');
+                form.reset();
+            } catch (error) {
+                setContactAlert('We could not submit your feedback. Please try again.', 'error');
+            } finally {
+                submitButton.disabled = false;
+                submitButton.textContent = 'SUBMIT';
+            }
         }
 
         // API Configuration
